@@ -1,7 +1,7 @@
-pipeline {
+•	pipeline {
     agent {
         node {
-            label 'dockerhost-build-server'
+        label 'dockerhost-build-server'
         }
     }
     tools {
@@ -17,16 +17,16 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-        stage('Copying war file') {
+        stage('Copying jar file') {
             steps {
-                echo 'Copying war file..'
-                sh 'mv target/*.war .'
+                echo 'Copying jar file..'
+                sh 'mv target/*.jar .'
             }
         }
         stage('build image') {
-            steps {
-                sh 'docker build -t lucimo/devops-web-project:v1 --label devops-web-project-server .'
-            }
+          steps {
+            sh 'docker build -t lucimo/campaign-demo:v1 --label campaign-demo-server .'
+          }
         }
         stage('Docker Hub Login') {
             steps {
@@ -34,9 +34,9 @@ pipeline {
             }
         }
         stage('Push to Docker Hub') {
-            steps {
-                sh 'docker push lucimo/devops-web-project:v1'
-            }
+          steps {
+            sh 'docker push lucimo/campaign-demo:v1'
+          }
         }
     }
     post {
@@ -44,4 +44,4 @@ pipeline {
             sh 'docker logout'
         }
     }
-}
+  }
